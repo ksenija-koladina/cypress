@@ -21,11 +21,11 @@ describe('First Test', () =>{
         // cy.get('.scroll-container').find('[data-street="Lebanon Road"]').as('flats')
 
         cy.document().then(($doc) => {
-            const flats = $doc.querySelectorAll('[data-street="Lebanon Road"]') as NodeList
+            const flats = $doc.querySelectorAll('[data-street="Lebanon Road"]') as NodeListOf<any>
             let count: number = flats.length;
             let random: number = Math.floor(Math.random() * count);
-            cy.get(flats[random])
-                .click();
+           cy.get(flats[random])
+               .click();
         })
 
         //Date and time
@@ -33,16 +33,16 @@ describe('First Test', () =>{
         cy.url().should('include', 'property-valuation/appointment-select')
 
         cy.document().then(($doc) => {
-            const days = $doc.querySelectorAll(".day-component.available-day") as NodeList
+            const days = $doc.querySelectorAll(".day-component.available-day") as NodeListOf<any>
             let count: number = days.length;
             let random: number = Math.floor(Math.random() * count);
             cy.get(days[random])
-                .click()
+               .click()
 
         })
 
         cy.document().then(($doc) => {
-            const timeAv = $doc.querySelectorAll(".timeslot > .available") as NodeList
+            const timeAv = $doc.querySelectorAll(".timeslot > .available") as NodeListOf<any>
             let count: number = timeAv.length;
             let random: number = Math.floor(Math.random() * count);
             if (timeAv.length)
