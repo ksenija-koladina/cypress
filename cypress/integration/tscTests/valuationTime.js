@@ -1,5 +1,6 @@
 "use strict";
 /// <reference types="cypress" />
+//import htmlString = JQuery.htmlString;
 describe('First Test', function () {
     it('Booking Free Valuation work good', function () {
         cy.viewport(1280, 720);
@@ -36,15 +37,21 @@ describe('First Test', function () {
         });
         var timeAv;
         var timeRandom;
-        var timeRandomText;
+        var timeText;
         cy.document().then(function ($doc) {
             timeAv = $doc.querySelectorAll(".timeslot > .available");
             var count = timeAv.length;
             var random = Math.floor(Math.random() * count);
             timeRandom = timeAv[random];
-            timeRandomText = timeRandom.textContent;
-            cy.get(timeRandom)
-                .click();
+            cy.get('.timeslots text-center clearfix')
+                .find(timeRandom)
+                .then(function ($text) {
+                // save text from the first element
+                timeText = $text.text();
+            });
+            // timeRandomText = timeRandom.textContent;
+            // cy.get(timeRandom)
+            //     .click();
         });
         //Contact Details input form
         cy.url().should('include', 'property-valuation/contact-details');
@@ -121,6 +128,6 @@ describe('First Test', function () {
         }
         // Click to Properties
         cy.get('[yp-e2e-id=properties]').click();
-        // cy.get('.date').should('contain.value', timeRandomText)
+        cy.get('.date').should('contain', timeText);
     });
 });

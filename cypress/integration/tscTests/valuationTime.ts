@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import htmlString = JQuery.htmlString;
+//import htmlString = JQuery.htmlString;
 
 describe('First Test', () =>{
 
@@ -26,8 +26,8 @@ describe('First Test', () =>{
             const flats = $doc.querySelectorAll('[data-street="Lebanon Road"]') as NodeListOf<any>
             let count: number = flats.length;
             let random: number = Math.floor(Math.random() * count);
-           cy.get(flats[random])
-               .click();
+            cy.get(flats[random])
+                .click();
         })
 
         //Date and time
@@ -35,7 +35,7 @@ describe('First Test', () =>{
         cy.url().should('include', 'property-valuation/appointment-select')
 
         if(cy.get('.day-component.available-day').should('not.exist')){
-        cy.get('#next-week').click()}
+            cy.get('#next-week').click()}
 
 
         cy.document().then(($doc) => {
@@ -44,21 +44,29 @@ describe('First Test', () =>{
             let random: number = Math.floor(Math.random() * count);
             let daysRandomDay = days[random];
             cy.get(daysRandomDay)
-               .click()
+                .click()
 
         })
 
         let timeAv
         let timeRandom
-        let timeRandomText
+        let timeText
         cy.document().then(($doc) => {
             timeAv = $doc.querySelectorAll(".timeslot > .available") as NodeListOf<any>
             let count: number = timeAv.length;
             let random: number = Math.floor(Math.random() * count);
             timeRandom = timeAv[random];
-            timeRandomText = timeRandom.textContent;
-            cy.get(timeRandom)
-                .click();
+            cy.get('.timeslots text-center clearfix')
+                .find(timeRandom)
+                .then(($text) => {
+                    // save text from the first element
+                    timeText = $text.text()
+                })
+
+
+            // timeRandomText = timeRandom.textContent;
+            // cy.get(timeRandom)
+            //     .click();
         })
 
         //Contact Details input form
@@ -74,7 +82,7 @@ describe('First Test', () =>{
             text1 += possible1.charAt(Math.floor(Math.random() * possible1.length));
 
             for (let i = 0; i < 8; i++) {
-            text2 += possible2.charAt(Math.floor(Math.random() * possible2.length));
+                text2 += possible2.charAt(Math.floor(Math.random() * possible2.length));
             }
             return `${text1}${text2}`;
         }
@@ -139,8 +147,8 @@ describe('First Test', () =>{
 
             for (let i = 0; i < 9; i++)
                 randText += possible2.charAt(Math.floor(Math.random() * possible2.length));
-                randText += possible.charAt(Math.floor(Math.random() * possible.length));
-                randText += Math.floor(Math.random() * 9);
+            randText += possible.charAt(Math.floor(Math.random() * possible.length));
+            randText += Math.floor(Math.random() * 9);
             return randText;
         }
 
@@ -169,7 +177,7 @@ describe('First Test', () =>{
 
         cy.get('[yp-e2e-id=properties]').click()
 
-        // cy.get('.date').should('contain.value', timeRandomText)
+        cy.get('.date').should('contain', timeText)
 
     })
 
