@@ -1,4 +1,3 @@
 "use strict";
-Cypress.Commands.add('dataCy', function (value) {
-    return cy.get("[data-cy=" + value + "]");
-});
+Object.defineProperty(exports, "__esModule", { value: true });
+require("./commands");

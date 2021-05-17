@@ -18,3 +18,13 @@ Cypress.Commands.add('getBySelLike', function (selector) {
     }
     return cy.get.apply(cy, __spreadArray(["[data-test*=" + selector + "]"], args));
 });
+Cypress.Commands.add('dataCy', function (value) {
+    return cy.get("[data-cy=" + value + "]");
+});
+//Custom command
+Cypress.Commands.add("login", function (email, password) {
+    cy.visit('https://admin-demo.nopcommerce.com/login');
+    cy.get('input[data-val-required="Please enter your email"]').clear().type(email);
+    cy.get('input[type=password]').clear().type(password);
+    cy.get('button[type=submit]').click();
+});

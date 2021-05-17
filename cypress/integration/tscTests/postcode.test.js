@@ -34,26 +34,56 @@ describe('First Test', function () {
             var count = timeAv.length;
             var random = Math.floor(Math.random() * count);
             if (timeAv.length)
-                cy.get(timeAv[random])
+                cy.get(timeAv[random]).as('bookingTime')
                     .click();
         });
         //Input form
         cy.url().should('include', 'property-valuation/contact-details');
+        function fullNameF() {
+            var text1 = "";
+            var text2 = "";
+            var possible1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var possible2 = "abcdefghijklmnopqrstuvwxyz";
+            text1 += possible1.charAt(Math.floor(Math.random() * possible1.length));
+            for (var i = 0; i < 8; i++) {
+                text2 += possible2.charAt(Math.floor(Math.random() * possible2.length));
+            }
+            return "" + text1 + text2;
+        }
+        function emailF() {
+            var emailText = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < 10; i++)
+                emailText += possible.charAt(Math.floor(Math.random() * possible.length));
+            return emailText;
+        }
+        function phoneF() {
+            var phoneNumber = "";
+            for (var i = 0; i < 11; i++)
+                phoneNumber += Math.floor(Math.random() * 9);
+            return phoneNumber;
+        }
         cy.get('[id="val_vend_full_name"]')
-            .type('Full Name');
+            .type(fullNameF() + " " + fullNameF());
         cy.get('[id="val_vend_email"]')
-            .type('Email@email');
+            .type(emailF() + "@email.com");
         cy.get('[id="val_vend_phone"]')
-            .type('123456789');
+            .type("+" + phoneF());
         cy.get('[id="val_opt_in"]').click();
         cy.get('[id="val_vend_full_name_error"]')
             .as('nameValidation')
             .should('not.exist');
         cy.get('[id="val_vend_email_error"]')
             .as('emailValidation')
-            .should("contain", "Please enter a valid email");
+            .should('not.exist');
         cy.get('[id="val_vend_phone_error"]')
             .as('phoneValidation')
-            .should("contain", "Please enter a valid phone number");
+            .should('not.exist');
+        cy.get('#book-your-valuation-button')
+            .click();
+        cy.wait(5000);
+        cy.url().should('include', 'property-valuation/confirmation');
+        cy.get('#go-to-yopahub-sidebar-link')
+            .click();
     });
 });

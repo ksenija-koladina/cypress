@@ -46,7 +46,7 @@ describe('First Test', () =>{
             let count: number = timeAv.length;
             let random: number = Math.floor(Math.random() * count);
             if (timeAv.length)
-            cy.get(timeAv[random])
+            cy.get(timeAv[random]).as('bookingTime')
                 .click();
         })
 
@@ -54,13 +54,46 @@ describe('First Test', () =>{
 
         cy.url().should('include', 'property-valuation/contact-details')
 
+        function fullNameF() {
+            let text1 = "";
+            let text2 = "";
+            let possible1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            let possible2 = "abcdefghijklmnopqrstuvwxyz";
+
+            text1 += possible1.charAt(Math.floor(Math.random() * possible1.length));
+
+            for (let i = 0; i < 8; i++) {
+            text2 += possible2.charAt(Math.floor(Math.random() * possible2.length));
+            }
+            return `${text1}${text2}`;
+        }
+
+        function emailF() {
+            let emailText = "";
+            let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (let i = 0; i < 10; i++)
+                emailText += possible.charAt(Math.floor(Math.random() * possible.length));
+
+            return emailText;
+        }
+
+        function phoneF() {
+            let phoneNumber = "";
+
+            for (let i = 0; i < 11; i++)
+                phoneNumber += Math.floor(Math.random() * 9);
+
+            return phoneNumber;
+        }
 
         cy.get('[id="val_vend_full_name"]')
-            .type('Full Name')
+            .type(`${fullNameF()} ${fullNameF()}`)
         cy.get('[id="val_vend_email"]')
-            .type('Email@email')
+            .type(`${emailF()}@email.com`)
         cy.get('[id="val_vend_phone"]')
-            .type('123456789')
+            .type(`+${phoneF()}`)
+
         cy.get('[id="val_opt_in"]').click()
 
         cy.get('[id="val_vend_full_name_error"]')
@@ -68,10 +101,22 @@ describe('First Test', () =>{
             .should('not.exist')
         cy.get('[id="val_vend_email_error"]')
             .as('emailValidation')
-            .should("contain", "Please enter a valid email")
+            .should('not.exist')
         cy.get('[id="val_vend_phone_error"]')
             .as('phoneValidation')
-            .should("contain", "Please enter a valid phone number")
+            .should('not.exist')
+
+        cy.get('#book-your-valuation-button')
+            .click()
+
+        cy.wait(5000);
+
+        cy.url().should('include', 'property-valuation/confirmation')
+
+        cy.get('#go-to-yopahub-sidebar-link')
+            .click()
+
+
 
 
     })
