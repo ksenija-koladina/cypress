@@ -56,7 +56,8 @@ describe('First Test', () => {
             let random = Math.floor(Math.random() * count);
             timeRandom = timeAv[random];
             timeRandomText = timeRandom.textContent;
-            cy.log(timeRandomText)
+            cy.log(typeof timeRandomText)
+            cy.log(typeof timeRandomText)
             cy.get(timeRandom)
                 // .click();
         })
