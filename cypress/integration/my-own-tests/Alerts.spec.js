@@ -26,7 +26,7 @@ describe('UI Elements', () => {
 
         cy.visit("http://testautomationpractice.blogspot.com/")
 
-        cy.get('#cookieChoiceDismiss').click()
+        andom-words
 
         cy.get('#HTML9 > div.widget-content > button').click()
 

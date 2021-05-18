@@ -10,7 +10,13 @@
   "author": "qalatvia",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^15.3.0",
     "cypress": "^7.3.0",
+    "lite-server": "^2.6.1",
     "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "awesome-phonenumber": "^2.51.1",
+    "random-words": "^1.1.1"
   }
 }
